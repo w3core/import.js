@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>$import by w3core</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">$import</h1>
+      <h2 class="project-tagline">JavaScript/CSS/LESS files $import utility</h2>
+      <a href="https://github.com/w3core/import.js" class="btn">View on GitHub</a>
+      <a href="https://github.com/w3core/import.js/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/w3core/import.js/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="import-src-srcn--callback" class="anchor" href="#import-src-srcn--callback" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>$import (src[, srcN, ...][, callback])</h1>
+
+<h3>
+<a id="basic-useful-feature-list" class="anchor" href="#basic-useful-feature-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic useful feature list:</h3>
+
+<ul>
+<li>Load JS/CSS/LESS files into the document and execute callback(s) when loading is complete.</li>
+<li>Ability to define custom name for any link to the file and handle loading by using event handler.</li>
+<li>Ability to define custom type of the file (can be useful when the link to the file has not valid file extension) either js when can not be detected.</li>
+<li>Automatic file caching logic (Any URL will be loaded only once while the page will not reloaded).</li>
+</ul>
+
+<h2>
+<a id="resource-definition-format" class="anchor" href="#resource-definition-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resource definition format</h2>
+
+<pre><code>[ {name} : {type} ] {url}
+</code></pre>
+
+<p>Resource can be defined by using follow parameters:</p>
+
+<ul>
+<li>
+<code>url</code> : (required) URL to the file</li>
+<li>
+<code>type</code>: (optional) Type of file that defined in <code>url</code>.
+      Available values is <code>js</code>, <code>css</code> or <code>less</code>.
+      Can be useful when the link to the file has not valid file extension.</li>
+<li>
+<code>name</code>: (optional) <code>[a-zA-Z0-9.-_]</code> Unique identifier of the file that defined in <code>url</code>.
+      When <code>url</code> loading is complete the event <code>@import:{name}</code> will be dispatched for <code>document</code>.</li>
+</ul>
+
+<p>URL to the file can be defined by different ways:</p>
+
+<ul>
+<li>Simple link:
+<code>
+/url/path/to/the/file.{js|css|less}
+</code>
+</li>
+<li>Named link:
+<code>
+[some.name] /url/path/to/the/file.{js|css|less}
+</code>
+</li>
+<li>Type defined link:
+<code>
+[:css] /url/path/to/the/file.any
+</code>
+</li>
+<li>Both:
+<code>
+[some.name : css] /url/path/to/the/file.any
+</code>
+</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add <code>script</code> tag with <code>src</code> to the <code>import.min.js</code> file on your web site.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://rawgit.com/w3core/import.js/master/import.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="basic-example" class="anchor" href="#basic-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic example</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$import</span>([
+  <span class="pl-s"><span class="pl-pds">"</span>script.js<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>style.css<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>https://path.to/yet/another/script.js<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>[:css] https://path.to/yet/another/style.php<span class="pl-pds">"</span></span>
+],
+<span class="pl-k">function</span> (<span class="pl-smi">files</span>) {
+  <span class="pl-c">// Loading complete</span>
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(files)
+});</pre></div>
+
+<h3>
+<a id="advanced-example" class="anchor" href="#advanced-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advanced example</h3>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-k">var</span> plugin_1_files <span class="pl-k">=</span> [
+  <span class="pl-s"><span class="pl-pds">"</span>https://path.to/the/script.js<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>[:css] https://path.to/the/style.php<span class="pl-pds">"</span></span>
+];
+
+<span class="pl-k">var</span> plugin_2_files <span class="pl-k">=</span> {
+  plugin2Styles<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>/url/path/to/the/file.css<span class="pl-pds">"</span></span>,
+  plugin2Scripts<span class="pl-k">:</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>/url/path/to/the/file.js<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>[core.script:js] /url/path/to/the/file.any<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>[ext.script] /url/path/to/the/file.js<span class="pl-pds">"</span></span>
+  ],
+  <span class="pl-en">plugin2Loaded</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">files</span>){
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>plugin2Loaded &gt;<span class="pl-pds">"</span></span>, files);
+  }
+};
+
+<span class="pl-smi">document</span>.<span class="pl-en">addEventListener</span>(<span class="pl-s"><span class="pl-pds">"</span>@import<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>){
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>@import &gt;<span class="pl-pds">"</span></span>, <span class="pl-smi">e</span>.<span class="pl-c1">data</span>);
+});
+
+<span class="pl-smi">document</span>.<span class="pl-en">addEventListener</span>(<span class="pl-s"><span class="pl-pds">"</span>@import:core.script<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>){
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>@import:core.script &gt;<span class="pl-pds">"</span></span>, <span class="pl-smi">e</span>.<span class="pl-c1">data</span>);
+});
+
+<span class="pl-c">// The property name of an object can be used as `name` too</span>
+<span class="pl-smi">document</span>.<span class="pl-en">addEventListener</span>(<span class="pl-s"><span class="pl-pds">"</span>@import:plugin2Styles<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>){
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>@import:plugin2Styles &gt;<span class="pl-pds">"</span></span>, <span class="pl-smi">e</span>.<span class="pl-c1">data</span>);
+});
+
+<span class="pl-en">$import</span>(plugin_1_files, plugin_2_files, <span class="pl-k">function</span>(<span class="pl-smi">files</span>){
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>Main callback &gt;<span class="pl-pds">"</span></span>, files);
+});
+</pre></div>
+
+<p>-- Cheers</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/w3core/import.js">$import</a> is maintained by <a href="https://github.com/w3core">w3core</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
