@@ -8,8 +8,10 @@ $import (src[, srcN, ...][, callback])
  * Ability to define custom type of the file (can be useful when the link to the file has not valid file extension) either js when can not be detected.
  * Automatic file caching logic (Any URL will be loaded only once while the page will not reloaded).
 
+
+
 Resource definition format
----------------
+--------------------------
 
 ```
 [ {name} : {type} ] {url}
@@ -41,6 +43,13 @@ URL to the file can be defined by different ways:
   ```
   [some.name : css] /url/path/to/the/file.any
   ```
+
+Installation
+------------
+Add `script` tag with `src` to the `import.min.js` file on your web site.
+```
+<script type="text/javascript" src="https://rawgit.com/w3core/import.js/master/import.min.js"></script>
+```
 
 Usage
 -----
