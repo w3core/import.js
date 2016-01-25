@@ -47,7 +47,7 @@ URL to the file can be defined by different ways:
 Installation
 ------------
 Add `script` tag with `src` to the `import.min.js` file on your web site.
-```
+```html
 <script type="text/javascript" src="https://rawgit.com/w3core/import.js/master/import.min.js"></script>
 ```
 
