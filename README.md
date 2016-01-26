@@ -56,6 +56,16 @@ Usage
 
 ### Basic example
 ```javascript
+  $import("script.js, style.css");
+```
+OR
+```javascript
+  $import("script.js", "style.css", "[:js]script.php", function(files){
+    console.log(files);
+  });
+```
+OR
+```javascript
 $import([
   "script.js",
   "style.css",
