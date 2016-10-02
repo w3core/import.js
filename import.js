@@ -119,6 +119,8 @@
 
   function searchExists (type, url) {
     var attr = srcByType(type), list = document.getElementsByTagName(tagByType(type));
+    if (url.indexOf('://') == -1)
+      url = window.location.protocol + '//' + window.location.host + url
     for (var i=0; i<list.length; i++) {
       if (list[i][attr] == url) return list[i];
     }
